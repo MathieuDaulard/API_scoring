@@ -1,0 +1,8 @@
+json
+fastapi
+lightgbm
+joblib
+pandas
+uvicorn 
+gunicorn
+requests
