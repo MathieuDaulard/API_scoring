@@ -1,4 +1,3 @@
-json
 fastapi
 lightgbm
 joblib
