@@ -1,7 +1,10 @@
+from sqlite3 import DatabaseError
+
+from h11 import Data
 from scoring_code import Scoring_model
 import pandas as pd
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 
 #create the application
 app = FastAPI(
@@ -14,10 +17,14 @@ app = FastAPI(
 classifier = Scoring_model("LightGBMModel.joblib")
 
 
+class Item(BaseModel):
+    ids: list = []
+
 @app.post("/")
-async def get_prediction(id_client:str):
-    id_client = int(id_client)
-    if id_client not in classifier.get_id():
-        raise HTTPException(status_code = 446, detail = str(id_client) + " non trouvé")
+async def get_prediction(id_client:Item):
+    id_client = id_client.ids
+    for i in id_client :
+        if i not in classifier.get_id():
+            raise HTTPException(status_code = 446, detail = str(i) + " non trouvé")
     result_classification = classifier.make_prediction(id_client)
     return result_classification

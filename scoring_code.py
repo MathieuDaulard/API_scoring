@@ -38,5 +38,5 @@ class Scoring_model():
         if data.ndim == 1:
             data = data.reshape(1,-1)
         pred = self.model.predict_proba(data)
-        pred = pd.Series(np.where(pred[:,1]>0.27,self.solvabilite[1], self.solvabilite[0])).to_json()
+        pred = pd.Series(np.where(pred[:,1]>0.27,self.solvabilite[1], self.solvabilite[0]))
         return pred
